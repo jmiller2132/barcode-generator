@@ -1,0 +1,8 @@
+streamlit
+pandas
+openpyxl
+python-barcode[images]
+segno
+pillow
+xlsxwriter
+reportlab
