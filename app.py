@@ -139,13 +139,15 @@ def generate_barcode_image(value, symbology, add_checksum=False, show_text=True)
             # EAN-13 and UPC-A always include checksum (mandatory in standard)
             # Code 128 and Code 39 can have checksum toggled
             if symbology in ['Code 128', 'Code 39']:
-                code = barcode_class(value_str, writer=ImageWriter(write_text=show_text), add_checksum=add_checksum)
+                code = barcode_class(value_str, writer=ImageWriter(), add_checksum=add_checksum)
             else:
                 # EAN-13 and UPC-A always have checksum
-                code = barcode_class(value_str, writer=ImageWriter(write_text=show_text))
+                code = barcode_class(value_str, writer=ImageWriter())
             
             img_buffer = io.BytesIO()
-            code.write(img_buffer)
+            # Control text visibility via font_size option (0 = hide, >0 = show)
+            options = {'font_size': 0 if not show_text else 10}
+            code.write(img_buffer, options=options)
             img_buffer.seek(0)
             return Image.open(img_buffer)
     
